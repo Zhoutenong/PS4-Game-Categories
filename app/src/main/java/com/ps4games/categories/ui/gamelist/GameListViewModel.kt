@@ -5,11 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.ps4games.categories.data.db.GameEntity
 import com.ps4games.categories.data.repository.GameRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 enum class SortOrder { DEFAULT, SCORE_DESC, SCORE_ASC }
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class GameListViewModel @Inject constructor(private val repo: GameRepository) : ViewModel() {
 
