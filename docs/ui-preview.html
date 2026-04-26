@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>PS4 游戏库 App — UI 效果图</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: #111;
+  font-family: -apple-system, 'Segoe UI', sans-serif;
+  color: #e8e8f0;
+  padding: 32px 16px 64px;
+}
+h1 { text-align:center; font-size:13px; color:#555; margin-bottom:36px; letter-spacing:2px; text-transform:uppercase; }
+
+.screens { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; align-items:flex-start; }
+.screen-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+.screen-label { font-size:11px; color:#555; letter-spacing:1px; text-transform:uppercase; }
+
+/* 手机壳 */
+.phone {
+  width:300px;
+  background:#0f0f1a;
+  border-radius:32px;
+  border:1.5px solid #2a2a50;
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+}
+.status-bar {
+  height:26px; background:#0f0f1a;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 18px; font-size:10px; color:#555;
+}
+.status-bar .t { color:#ccc; font-weight:600; }
+
+/* AppBar */
+.bar {
+  height:52px; background:#16162a;
+  border-bottom:1px solid #2a2a50;
+  display:flex; align-items:center;
+  padding:0 14px; gap:10px;
+}
+.bar .logo-text {
+  font-size:15px; font-weight:700;
+  background:linear-gradient(90deg,#cdbcff,#e040fb);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  flex:1;
+}
+.bar .back { color:#cdbcff; font-size:22px; line-height:1; }
+.bar .bar-title { font-size:15px; font-weight:600; flex:1; }
+.bar .ic { color:#8888aa; font-size:17px; cursor:pointer; padding:4px; }
+.bar .ic.active { color:#cdbcff; }
+
+/* 统计 */
+.stats { padding:7px 14px; font-size:11px; color:#666; border-bottom:1px solid #1e1e35; display:flex; gap:4px; }
+.stats b { color:#cdbcff; }
+
+/* ── 首页分类卡片 ── */
+.cat-list { padding:8px 10px; display:flex; flex-direction:column; gap:5px; }
+.cat-card {
+  background:#16162a; border:1px solid #2a2a50; border-radius:12px;
+  height:56px; display:flex; align-items:center; padding:0 12px; gap:10px;
+}
+.cat-card.active { background:rgba(124,106,247,.1); border-color:#4336c4; }
+.vbar { width:3px; height:28px; border-radius:2px; background:linear-gradient(180deg,#7c6af7,#e040fb); flex-shrink:0; }
+.cat-info { flex:1; }
+.cat-code { font-size:13px; font-weight:600; }
+.cat-sub { font-size:10px; color:#666; margin-top:1px; }
+.cat-r { font-size:11px; color:#666; }
+.arr { font-size:13px; color:#333; margin-left:4px; }
+
+/* ── 游戏列表 · 行模式 ── */
+.game-list { display:flex; flex-direction:column; }
+.game-row {
+  display:flex; align-items:center;
+  padding:9px 12px; gap:10px;
+  border-bottom:1px solid #1a1a2e;
+}
+.game-row:active { background:#1e1e35; }
+/* 缩略图 */
+.thumb {
+  width:44px; height:44px; border-radius:8px;
+  background:#1e1e35; flex-shrink:0; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+  font-size:20px; color:#333;
+  border:1px solid #2a2a50;
+}
+.thumb img { width:100%; height:100%; object-fit:cover; }
+.game-info { flex:1; min-width:0; }
+.gname { font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.gname-en { font-size:10px; color:#666; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.sbadge {
+  width:36px; height:22px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:700; flex-shrink:0;
+}
+.sg { background:rgba(76,175,80,.15); color:#4caf50; }
+.so { background:rgba(255,152,0,.15); color:#ff9800; }
+.sr { background:rgba(244,67,54,.15); color:#f44336; }
+.sn { background:rgba(158,158,158,.12); color:#777; }
+
+/* ── 游戏列表 · 瓷砖模式 ── */
+.game-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:8px; padding:8px;
+}
+.game-tile {
+  background:#16162a; border:1px solid #2a2a50; border-radius:10px;
+  overflow:hidden; cursor:pointer;
+}
+.tile-cover {
+  width:100%; aspect-ratio:1/1;
+  background:#1e1e35;
+  display:flex; align-items:center; justify-content:center;
+  font-size:32px; color:#2a2a50;
+  position:relative;
+}
+.tile-cover img { width:100%; height:100%; object-fit:cover; }
+.tile-score {
+  position:absolute; top:6px; right:6px;
+  padding:2px 6px; border-radius:5px;
+  font-size:10px; font-weight:700;
+}
+.tile-info { padding:7px 8px 8px; }
+.tile-name { font-size:11px; font-weight:600; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.tile-en { font-size:9px; color:#555; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* 切换按钮 */
+.view-toggle { display:flex; gap:2px; }
+.vbtn {
+  width:30px; height:28px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; cursor:pointer; color:#555;
+}
+.vbtn.on { background:rgba(124,106,247,.2); color:#cdbcff; }
+
+/* ── 搜索 ── */
+.search-wrap { padding:8px 10px; }
+.sbox {
+  background:#1e1e35; border:1.5px solid #7c6af7; border-radius:22px;
+  height:38px; display:flex; align-items:center; padding:0 12px; gap:7px;
+  font-size:12px; color:#8888aa;
+}
+.sbox .si { color:#7c6af7; font-size:13px; }
+.cursor { display:inline-block; width:1.5px; height:12px; background:#7c6af7; animation:blink 1s infinite; margin-left:1px; vertical-align:middle; }
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.res-count { padding:3px 14px 6px; font-size:11px; color:#555; }
+.hl { color:#cdbcff; font-weight:700; }
+.cat-tag { font-size:9px; background:rgba(124,106,247,.2); color:#9d8fff; padding:1px 5px; border-radius:4px; margin-left:4px; }
+
+/* ── 详情页 ── */
+.detail-cover {
+  width:100%; aspect-ratio:3/4;
+  background:linear-gradient(160deg,#1a1040,#0f0f1a);
+  display:flex; align-items:center; justify-content:center;
+  font-size:56px; color:#2a2a50;
+  position:relative;
+}
+.detail-cover img { width:100%; height:100%; object-fit:cover; }
+.detail-overlay {
+  position:absolute; bottom:0; left:0; right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.85));
+  padding:32px 14px 14px;
+}
+.detail-title { font-size:18px; font-weight:700; line-height:1.3; }
+.detail-en { font-size:11px; color:#aaa; margin-top:3px; }
+.detail-score-row {
+  position:absolute; top:10px; right:10px;
+  width:44px; height:44px; border-radius:50%;
+  border:2.5px solid #4caf50;
+  background:rgba(0,0,0,.5);
+  display:flex; align-items:center; justify-content:center;
+  font-size:16px; font-weight:700; color:#4caf50;
+}
+.detail-body { padding:12px 14px; display:flex; flex-direction:column; gap:10px; }
+.detail-section { }
+.ds-label { font-size:10px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; }
+.chip-row { display:flex; flex-wrap:wrap; gap:6px; }
+.chip { padding:4px 9px; border-radius:7px; font-size:11px; font-weight:500; }
+.cp { background:rgba(67,54,196,.35); color:#cdbcff; border:1px solid #4336c4; }
+.cs { background:#1e1e35; color:#cbc4dc; border:1px solid #2a2a50; }
+</style>
+</head>
+<body>
+<h1>PS4 Game Library — UI Preview</h1>
+<div class="screens">
+
+<!-- 1. 首页 -->
+<div class="screen-wrap">
+  <div class="screen-label">首页</div>
+  <div class="phone">
+    <div class="status-bar"><span class="t">11:38</span><span>▲ 🔋</span></div>
+    <div class="bar">
+      <span style="font-size:18px">🎮</span>
+      <span class="logo-text">PS4 游戏库</span>
+      <span class="ic">🔍</span>
+    </div>
+    <div class="stats"><b>1,247</b> 款游戏 &nbsp;·&nbsp; <b>32</b> 个分类</div>
+    <div style="background:#0f0f1a; height:520px; overflow:hidden;">
+      <div class="cat-list">
+        <div class="cat-card active">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">ACT</div><div class="cat-sub">动作冒险</div></div>
+          <span class="cat-r">156 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">RPG</div><div class="cat-sub">角色扮演</div></div>
+          <span class="cat-r">134 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">SPT</div><div class="cat-sub">运动竞技</div></div>
+          <span class="cat-r">98 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">SHT</div><div class="cat-sub">射击</div></div>
+          <span class="cat-r">87 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">ADV</div><div class="cat-sub">文字冒险</div></div>
+          <span class="cat-r">76 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">RCG</div><div class="cat-sub">赛车竞速</div></div>
+          <span class="cat-r">54 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">FTG</div><div class="cat-sub">格斗</div></div>
+          <span class="cat-r">48 款</span><span class="arr">›</span>
+        </div>
+        <div class="cat-card">
+          <div class="vbar"></div>
+          <div class="cat-info"><div class="cat-code">SLG</div><div class="cat-sub">策略模拟</div></div>
+          <span class="cat-r">41 款</span><span class="arr">›</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2. 列表模式 -->
+<div class="screen-wrap">
+  <div class="screen-label">游戏列表 · 行模式</div>
+  <div class="phone">
+    <div class="status-bar"><span class="t">11:38</span><span>▲ 🔋</span></div>
+    <div class="bar">
+      <span class="back">‹</span>
+      <span class="bar-title">ACT · 动作冒险</span>
+      <div class="view-toggle">
+        <div class="vbtn on">☰</div>
+        <div class="vbtn">⊞</div>
+      </div>
+      <span class="ic">⇅</span>
+    </div>
+    <div style="background:#0f0f1a; height:548px; overflow:hidden;">
+      <div class="game-list">
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">战神：诸神黄昏</div>
+            <div class="gname-en">God of War Ragnarök</div>
+          </div>
+          <div class="sbadge sg">94</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">血源诅咒</div>
+            <div class="gname-en">Bloodborne</div>
+          </div>
+          <div class="sbadge sg">92</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">最后生还者 第二章</div>
+            <div class="gname-en">The Last of Us Part II</div>
+          </div>
+          <div class="sbadge sg">93</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">蜘蛛侠：迈尔斯·莫拉莱斯</div>
+            <div class="gname-en">Spider-Man: Miles Morales</div>
+          </div>
+          <div class="sbadge sg">85</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">对马岛之魂</div>
+            <div class="gname-en">Ghost of Tsushima</div>
+          </div>
+          <div class="sbadge sg">83</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">仁王2</div>
+            <div class="gname-en">Nioh 2</div>
+          </div>
+          <div class="sbadge so">79</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">赤痕：夜之仪式</div>
+            <div class="gname-en">Bloodstained: Ritual of the Night</div>
+          </div>
+          <div class="sbadge so">78</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">控制</div>
+            <div class="gname-en">Control</div>
+          </div>
+          <div class="sbadge so">74</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname">忍者龙剑传：大师合集</div>
+            <div class="gname-en">Ninja Gaiden: Master Collection</div>
+          </div>
+          <div class="sbadge so">72</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. 瓷砖模式 -->
+<div class="screen-wrap">
+  <div class="screen-label">游戏列表 · 瓷砖模式</div>
+  <div class="phone">
+    <div class="status-bar"><span class="t">11:38</span><span>▲ 🔋</span></div>
+    <div class="bar">
+      <span class="back">‹</span>
+      <span class="bar-title">ACT · 动作冒险</span>
+      <div class="view-toggle">
+        <div class="vbtn">☰</div>
+        <div class="vbtn on">⊞</div>
+      </div>
+      <span class="ic">⇅</span>
+    </div>
+    <div style="background:#0f0f1a; height:548px; overflow:hidden;">
+      <div class="game-grid">
+        <div class="game-tile">
+          <div class="tile-cover">🎮<div class="tile-score sg">94</div></div>
+          <div class="tile-info">
+            <div class="tile-name">战神：诸神黄昏</div>
+            <div class="tile-en">God of War Ragnarök</div>
+          </div>
+        </div>
+        <div class="game-tile">
+          <div class="tile-cover">🎮<div class="tile-score sg">92</div></div>
+          <div class="tile-info">
+            <div class="tile-name">血源诅咒</div>
+            <div class="tile-en">Bloodborne</div>
+          </div>
+        </div>
+        <div class="game-tile">
+          <div class="tile-cover">🎮<div class="tile-score sg">93</div></div>
+          <div class="tile-info">
+            <div class="tile-name">最后生还者 第二章</div>
+            <div class="tile-en">The Last of Us Part II</div>
+          </div>
+        </div>
+        <div class="game-tile">
+          <div class="tile-cover">🎮<div class="tile-score sg">85</div></div>
+          <div class="tile-info">
+            <div class="tile-name">蜘蛛侠：迈尔斯·莫拉莱斯</div>
+            <div class="tile-en">Spider-Man: Miles Morales</div>
+          </div>
+        </div>
+        <div class="game-tile">
+          <div class="tile-cover">🎮<div class="tile-score sg">83</div></div>
+          <div class="tile-info">
+            <div class="tile-name">对马岛之魂</div>
+            <div class="tile-en">Ghost of Tsushima</div>
+          </div>
+        </div>
+        <div class="game-tile">
+          <div class="tile-cover">🎮<div class="tile-score so">79</div></div>
+          <div class="tile-info">
+            <div class="tile-name">仁王2</div>
+            <div class="tile-en">Nioh 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. 搜索 -->
+<div class="screen-wrap">
+  <div class="screen-label">搜索</div>
+  <div class="phone">
+    <div class="status-bar"><span class="t">11:38</span><span>▲ 🔋</span></div>
+    <div class="bar">
+      <span class="back">‹</span>
+      <div class="sbox" style="flex:1;height:34px;">
+        <span class="si">🔍</span>
+        <span>战神<span class="cursor"></span></span>
+      </div>
+    </div>
+    <div style="background:#0f0f1a; height:548px; overflow:hidden;">
+      <div class="res-count">找到 3 个结果</div>
+      <div class="game-list">
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname"><span class="hl">战神</span>：诸神黄昏</div>
+            <div class="gname-en">God of War Ragnarök <span class="cat-tag">ACT</span></div>
+          </div>
+          <div class="sbadge sg">94</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname"><span class="hl">战神</span>（2018）</div>
+            <div class="gname-en">God of War <span class="cat-tag">ACT</span></div>
+          </div>
+          <div class="sbadge sg">94</div>
+        </div>
+        <div class="game-row">
+          <div class="thumb">🎮</div>
+          <div class="game-info">
+            <div class="gname"><span class="hl">战</span>场女武神4</div>
+            <div class="gname-en">Valkyria Chronicles 4 <span class="cat-tag">SLG</span></div>
+          </div>
+          <div class="sbadge so">80</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 5. 详情页 -->
+<div class="screen-wrap">
+  <div class="screen-label">游戏详情</div>
+  <div class="phone">
+    <div class="status-bar"><span class="t">11:38</span><span>▲ 🔋</span></div>
+    <!-- 封面图占满顶部，AppBar 悬浮 -->
+    <div style="position:relative; background:#0f0f1a; height:626px; overflow:hidden;">
+      <!-- 封面大图 -->
+      <div class="detail-cover" style="height:340px;">
+        🎮
+        <div class="detail-score-row">94</div>
+        <div class="detail-overlay">
+          <div class="detail-title">战神：诸神黄昏</div>
+          <div class="detail-en">God of War Ragnarök</div>
+        </div>
+      </div>
+      <!-- 悬浮返回按钮 -->
+      <div style="position:absolute;top:26px;left:10px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;color:#cdbcff;font-size:20px;">‹</div>
+      <!-- 内容区 -->
+      <div class="detail-body">
+        <div class="detail-section">
+          <div class="ds-label">分类</div>
+          <div class="chip-row">
+            <span class="chip cp">ACT · 动作冒险</span>
+          </div>
+        </div>
+        <div class="detail-section">
+          <div class="ds-label">标签</div>
+          <div class="chip-row">
+            <span class="chip cs">动作</span>
+            <span class="chip cs">冒险</span>
+            <span class="chip cs">北欧神话</span>
+            <span class="chip cs">单机</span>
+            <span class="chip cs">剧情向</span>
+            <span class="chip cs">开放世界</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>

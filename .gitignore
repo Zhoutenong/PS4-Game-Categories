@@ -1,0 +1,22 @@
+# Build
+build/
+.gradle/
+
+# Local config
+local.properties
+*.hprof
+
+# IDE
+.idea/
+*.iml
+.kotlin/
+
+# Root DB (only assets/ps4_games.db is needed)
+/ps4_games.db
+
+# Claude
+.claude/
+
+# Keystore
+*.jks
+*.keystore

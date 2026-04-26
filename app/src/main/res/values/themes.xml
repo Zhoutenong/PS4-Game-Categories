@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.PS4GameCategories" parent="Theme.Material3.DayNight.NoActionBar" />
+</resources>
